@@ -1,0 +1,87 @@
+/**
+ * theme.css - design tokens only. No layout rules live here so the
+ * whole visual identity can be re-tuned from one file.
+ *
+ * Colors: sampled directly from the Chakra Palette image, TOP ROW
+ * ONLY for each color, per your note that row two still needs
+ * tweaking. If you finalize row two later, this is the only file
+ * that needs new hex values - everything else references these
+ * variables by name.
+ */
+
+:root {
+  /* ---- neutrals, sampled from the palette image background ---- */
+  --paper: #FDF8EA;
+  --paper-raised: #FFFFFF;
+  --ink: #3A3A3A;
+  --ink-muted: #6B6B6B;
+  --ink-faint: #9B9994;
+  --line: #E6DFCE;
+  --line-strong: #D8CFB8;
+
+  /* ---- the seven aspects, chakra top-row values ----
+     600 = darkest swatch, 100 = lightest swatch, matching the six
+     shades shown per color in the reference image. */
+  --root-600: #6B0F0F; --root-500: #8B1A1A; --root-400: #B91C1C; --root-300: #DC2626; --root-200: #EF2D2D; --root-100: #F87171;
+  --sacral-600: #6D300A; --sacral-500: #9A4A0D; --sacral-400: #BF6314; --sacral-300: #D97C24; --sacral-200: #EB9C47; --sacral-100: #F5C98A;
+  --solar-600: #6E5102; --solar-500: #9B7605; --solar-400: #C49A13; --solar-300: #D8B22D; --solar-200: #E7C95A; --solar-100: #F3E1A0;
+  --heart-600: #3E5F2D; --heart-500: #5A7A44; --heart-400: #74965E; --heart-300: #8CB776; --heart-200: #A9CF9B; --heart-100: #DCEAD2;
+  --throat-600: #355B82; --throat-500: #4C749D; --throat-400: #658FBA; --throat-300: #7CABD3; --throat-200: #98C5E6; --throat-100: #D5E7F6;
+  --thirdeye-600: #4A3A86; --thirdeye-500: #6250A3; --thirdeye-400: #7B65BE; --thirdeye-300: #9580D6; --thirdeye-200: #B1A1E8; --thirdeye-100: #E4DCF7;
+  --crown-600: #5B3A79; --crown-500: #755091; --crown-400: #9164A9; --crown-300: #AC7AC0; --crown-200: #C89CD8; --crown-100: #EEE3F7;
+
+  /* ---- brand accent -----------------------------------------
+     Heart-green pulls double duty as the general interactive
+     color (buttons, links, focus rings) as well as the Engagement
+     & Communion aspect - "Love is Foundation" runs on the heart
+     aspect, so the UI's own accent is heart-colored rather than an
+     arbitrary eighth color. */
+  --accent: var(--heart-600);
+  --accent-strong: #2E4A21;
+  --accent-soft: var(--heart-100);
+  --accent-contrast: #FFFFFF;
+
+  --danger: #B91C1C;
+  --danger-soft: #FBE4E4;
+
+  /* ---- type --------------------------------------------------- */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+
+  --fs-2xl: 2.75rem;
+  --fs-xl: 1.875rem;
+  --fs-lg: 1.375rem;
+  --fs-md: 1rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+
+  /* ---- spacing (4px base) -------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(58, 50, 30, 0.08);
+  --shadow-md: 0 8px 24px rgba(58, 50, 30, 0.12);
+  --shadow-lg: 0 16px 40px rgba(58, 50, 30, 0.18);
+}
+
+/* Chakra-keyed utility classes so any component can say
+   class="aspect-chip chakra-heart" and get the right colors without
+   inline styles scattered everywhere. */
+.chakra-root      { --chakra-600: var(--root-600);      --chakra-300: var(--root-300);      --chakra-100: var(--root-100); }
+.chakra-sacral    { --chakra-600: var(--sacral-600);    --chakra-300: var(--sacral-300);    --chakra-100: var(--sacral-100); }
+.chakra-solar     { --chakra-600: var(--solar-600);     --chakra-300: var(--solar-300);     --chakra-100: var(--solar-100); }
+.chakra-heart     { --chakra-600: var(--heart-600);     --chakra-300: var(--heart-300);     --chakra-100: var(--heart-100); }
+.chakra-throat    { --chakra-600: var(--throat-600);    --chakra-300: var(--throat-300);    --chakra-100: var(--throat-100); }
+.chakra-third-eye { --chakra-600: var(--thirdeye-600);  --chakra-300: var(--thirdeye-300);  --chakra-100: var(--thirdeye-100); }
+.chakra-crown     { --chakra-600: var(--crown-600);     --chakra-300: var(--crown-300);     --chakra-100: var(--crown-100); }
