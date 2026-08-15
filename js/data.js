@@ -12,20 +12,32 @@ window.LIF = window.LIF || {};
 
 /* ---------------------------------------------------------------
  * The Seven Aspects.
- * Color-coded using the chakra palette (top row of each color only,
- * per your note that the second row still needs tweaking).
- * Mapping assumption: the 7 aspects follow the chakra order Root -> Crown
- * in the order they're listed in the framework doc. Easy to re-pair if
- * you had a different mapping in mind - it's just the "chakra" field below.
+ * Names, pairing-words, and colors all come straight from the LiF
+ * flower-of-life logo and its accompanying "interrelationship
+ * synergies" notes: each aspect is one of the logo's seven circles,
+ * and the hex colors in theme.css were pixel-sampled from that same
+ * logo file, not guessed. "description" is a one-phrase distillation
+ * of that aspect's notes, used as a hover tooltip on the aspect wheel.
+ * The "chakra" field is just this aspect's own id again - it's kept
+ * only because every component that builds a color-class name from
+ * it (map pins, cards, badges, the modal) already expects a field
+ * with that name; nothing here is actually about chakras anymore.
  * ------------------------------------------------------------- */
 LIF.ASPECTS = [
-  { id: 'source-resources',    name: 'Source & Resources',     tagline: 'Flow', chakra: 'root' },
-  { id: 'divine-potential',    name: 'Divine Human Potential',  tagline: null,   chakra: 'sacral' },
-  { id: 'presence-being',      name: 'Presence & Being',        tagline: 'Me',   chakra: 'solar' },
-  { id: 'engagement-communion',name: 'Engagement & Communion',  tagline: 'We',   chakra: 'heart' },
-  { id: 'nature-nurture',      name: 'Nature & Nurture',        tagline: null,   chakra: 'throat' },
-  { id: 'community-inclusion', name: 'Community & Inclusion',   tagline: 'Us',   chakra: 'third-eye' },
-  { id: 'service-offerings',   name: 'Service & Offerings',     tagline: 'Life', chakra: 'crown' }
+  { id: 'source-resources',     name: 'Source - Resources',     tagline: 'Life', chakra: 'source-resources',
+    description: 'Volunteers, funding, and resources in service of the whole.' },
+  { id: 'divine-potential',     name: 'Divine Human Potential', tagline: null,   chakra: 'divine-potential',
+    description: 'Unification of all aspects of being.' },
+  { id: 'presence-being',       name: 'Presence - Being',       tagline: 'Me',   chakra: 'presence-being',
+    description: 'Willing to pause and return to love.' },
+  { id: 'engagement-communion', name: 'Engagement - Communion', tagline: 'We',   chakra: 'engagement-communion',
+    description: 'A collaborative convening platform for shared discovery.' },
+  { id: 'nature-nurture',       name: 'Nature - Nurture',       tagline: null,   chakra: 'nature-nurture',
+    description: 'The whole Earth is a sacred site.' },
+  { id: 'community-inclusion',  name: 'Community - Inclusion',  tagline: 'Us',   chakra: 'community-inclusion',
+    description: 'Inclusive, shared space - no barriers based on money.' },
+  { id: 'service-offerings',    name: 'Services - Offerings',   tagline: 'Flow', chakra: 'service-offerings',
+    description: 'Courses, trainings, and offerings that flow from source to form.' }
 ];
 
 /* ---------------------------------------------------------------

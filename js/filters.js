@@ -13,39 +13,54 @@ window.LIF = window.LIF || {};
 LIF.filters = (function () {
   var U = LIF.util;
 
-  /* ================= Aspect wheel ================= */
+  /* ================= Aspect wheel (the LiF flower logo, clickable) =================
+     A recreation of your flower-of-life logo's seven circles rather than
+     an embedded image, so each circle can be its own clickable filter
+     region - same click-to-filter behavior as before, new shape. Position
+     and color per circle come straight from your logo file and its notes:
+     centre = Divine Human Potential (purple); the six petals sit at the
+     compass position their own notes describe (top/upper-right/lower-
+     right/bottom/lower-left/upper-left). */
+  var WHEEL_ANGLES = {
+    'presence-being': -90,        // top
+    'engagement-communion': -30,  // upper-right
+    'nature-nurture': 30,         // lower-right
+    'community-inclusion': 90,    // bottom
+    'service-offerings': 150,     // lower-left
+    'source-resources': 210       // upper-left
+    // 'divine-potential' is the centre circle - no angle, handled below.
+  };
+
   function polar(cx, cy, r, angleDeg) {
     var rad = angleDeg * Math.PI / 180;
     return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
-  }
-  function wedgePath(cx, cy, rOuter, rInner, startAngle, endAngle) {
-    var os = polar(cx, cy, rOuter, startAngle), oe = polar(cx, cy, rOuter, endAngle);
-    var is = polar(cx, cy, rInner, startAngle), ie = polar(cx, cy, rInner, endAngle);
-    return 'M ' + os.x.toFixed(2) + ' ' + os.y.toFixed(2) +
-      ' A ' + rOuter + ' ' + rOuter + ' 0 0 1 ' + oe.x.toFixed(2) + ' ' + oe.y.toFixed(2) +
-      ' L ' + ie.x.toFixed(2) + ' ' + ie.y.toFixed(2) +
-      ' A ' + rInner + ' ' + rInner + ' 0 0 0 ' + is.x.toFixed(2) + ' ' + is.y.toFixed(2) + ' Z';
   }
 
   function renderAspectWheel() {
     var slot = U.$('#aspectWheelSlot');
     if (!slot) return;
-    var cx = 32, cy = 32, rOuter = 31, rInner = 13, gap = 3;
-    var slice = 360 / LIF.ASPECTS.length;
+    var cx = 32, cy = 32, r = 15.5;
     var active = LIF.state.filters.aspects;
-    var wedges = LIF.ASPECTS.map(function (a, i) {
-      var start = -90 + i * slice + gap / 2;
-      var end = -90 + (i + 1) * slice - gap / 2;
+    // Draw the centre circle (Divine Human Potential) last so its full
+    // disc stays clickable rather than being covered by the six petals.
+    var ordered = LIF.ASPECTS.slice().sort(function (a, b) {
+      return (a.id === 'divine-potential' ? 1 : 0) - (b.id === 'divine-potential' ? 1 : 0);
+    });
+    var circles = ordered.map(function (a) {
+      var angle = WHEEL_ANGLES[a.id];
+      var center = (angle == null) ? { x: cx, y: cy } : polar(cx, cy, r, angle);
       var isActive = active.indexOf(a.id) !== -1;
       var isDimmed = active.length > 0 && !isActive;
-      var cls = 'wedge chakra-' + a.chakra + (isActive ? ' is-active' : '') + (isDimmed ? ' is-dimmed' : '');
-      return '<path class="' + cls + '" d="' + wedgePath(cx, cy, rOuter, rInner, start, end) + '" data-aspect="' + a.id + '"><title>' + U.escapeHtml(a.name + (a.tagline ? ' (' + a.tagline + ')' : '')) + '</title></path>';
+      var cls = 'wheel-circle chakra-' + a.chakra + (isActive ? ' is-active' : '') + (isDimmed ? ' is-dimmed' : '');
+      var label = a.name + (a.tagline ? ' (' + a.tagline + ')' : '');
+      return '<circle class="' + cls + '" cx="' + center.x.toFixed(2) + '" cy="' + center.y.toFixed(2) + '" r="' + r +
+        '" data-aspect="' + a.id + '"><title>' + U.escapeHtml(label + (a.description ? ' - ' + a.description : '')) + '</title></circle>';
     }).join('');
-    slot.innerHTML = '<svg class="aspect-wheel" viewBox="0 0 64 64" role="img" aria-label="Filter events by LiF Aspect">' + wedges + '</svg>';
+    slot.innerHTML = '<svg class="aspect-wheel" viewBox="0 0 64 64" role="img" aria-label="Filter events by LiF Aspect - click a circle">' + circles + '</svg>';
     slot.querySelector('svg').addEventListener('click', function (e) {
-      var path = e.target.closest('[data-aspect]');
-      if (!path) return;
-      toggleValue('aspects', path.getAttribute('data-aspect'));
+      var circle = e.target.closest('[data-aspect]');
+      if (!circle) return;
+      toggleValue('aspects', circle.getAttribute('data-aspect'));
       renderAspectWheel();
       renderDrawer();
       LIF.app.refreshEvents();
