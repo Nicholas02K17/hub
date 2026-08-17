@@ -186,8 +186,7 @@ LIF.app = (function () {
       btn.addEventListener('click', function () { setView(btn.dataset.view); });
     });
     U.$('#moreFeaturesBtn').addEventListener('click', function () { LIF.customize.open(); });
-    U.$('#loginBtn').addEventListener('click', function () { U.backendPlaceholder('Signing in'); });
-    U.$('#dashboardToggleBtn').addEventListener('click', function () { toggleDashboard(); });
+    U.$('#loginBtn').addEventListener('click', function () { window.location.href = 'login.html'; });    U.$('#dashboardToggleBtn').addEventListener('click', function () { toggleDashboard(); });
 
     bindToolbar();
     LIF.filters.renderAspectWheel();
