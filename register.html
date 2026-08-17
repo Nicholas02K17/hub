@@ -199,8 +199,9 @@
   /* --- staggered rise for the standard fields --- */
   .field[data-field="name"]     { animation: fieldRise .55s .78s var(--ease-out) both; }
   .field[data-field="email"]    { animation: fieldRise .55s .92s var(--ease-out) both; }
-  .field--terms                 { animation: fieldRise .55s 1.04s var(--ease-out) both; }
-  .submit-btn                   { animation: fieldRise .55s 1.14s var(--ease-out) both; }
+    .field--terms                 { animation: fieldRise .55s 1.02s var(--ease-out) both; }
+    .field--updates                { animation: fieldRise .55s 1.08s var(--ease-out) both; }
+    .submit-btn                   { animation: fieldRise .55s 1.16s var(--ease-out) both; }
   .form-footer, .aspects-dots   { animation: fadeUp .6s 1.26s var(--ease-out) both; }
 
   /* ============ THE USERNAME "SPAWN" MOMENT ============ */
@@ -296,6 +297,13 @@
   .submit-btn:hover{ transform: translateY(-2px); box-shadow: 0 18px 30px -12px rgba(189,95,114,.6); filter:brightness(1.04); }
   .submit-btn:active{ transform: translateY(0); }
   .submit-btn:focus-visible{ outline:3px solid var(--gold-soft); outline-offset:3px; }
+  .submit-btn:disabled{
+  cursor:not-allowed;
+  background:#DCD3C0;
+  color:#A89C87;
+  box-shadow:none;
+}
+.submit-btn:disabled:hover{ transform:none; box-shadow:none; filter:none; }
   .submit-btn.is-loading .btn-label{ opacity:.0; }
   .submit-btn.is-loading::after{
     content:"";
@@ -464,7 +472,12 @@
           <label for="terms">I agree to the <a href="#">community guidelines</a> and understand LiF Hub is built on kindness first.</label>
         </div>
 
-        <button type="submit" class="submit-btn" id="submitBtn">
+        <div class="field field--terms field--updates">
+            <input type="checkbox" class="seed-check" id="updates" name="updates">
+            <label for="updates">I agree to receive email updates</label>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn" disabled>
           <span class="btn-label">Create account</span>
           <span class="btn-particles" id="btnParticles" aria-hidden="true"></span>
         </button>
@@ -593,7 +606,32 @@
       }, 1400);
     }, 700);
   });
+/* ---------- keep the submit button disabled until the form is actually ready ---------- */
+  var fullNameInput = document.getElementById("fullName");
+  var emailInput    = document.getElementById("email");
+  var termsInput    = document.getElementById("terms");
+  var submitStateTimer;
 
+  function updateSubmitState(){
+    var nameVal = fullNameInput.value.trim();
+    var usernameVal = usernameInput.value.trim();
+    var emailVal = emailInput.value.trim();
+    var agreed = termsInput.checked;
+    var ready = !!(nameVal && usernameVal.length >= 3 && emailVal && agreed &&
+                   !usernameInput.classList.contains("is-bad"));
+    submitBtn.disabled = !ready;
+  }
+
+  fullNameInput.addEventListener("input", updateSubmitState);
+  emailInput.addEventListener("input", updateSubmitState);
+  termsInput.addEventListener("change", updateSubmitState);
+  usernameInput.addEventListener("input", function(){
+    updateSubmitState();
+    clearTimeout(submitStateTimer);
+    submitStateTimer = setTimeout(updateSubmitState, 520); // re-check once the availability note settles
+  });
+
+  updateSubmitState(); // correct state on page load
 })();
 </script>
 </body>
